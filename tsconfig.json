@@ -1,7 +1,5 @@
 {
     "compilerOptions": {
-        "declaration": true,
-        "declarationDir": "./dist",
         "outDir": "dist",
         "target": "es2018",
         "allowSyntheticDefaultImports": true,
@@ -9,7 +7,10 @@
         "moduleResolution": "node",
         "module": "commonjs",
         "baseUrl": ".",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "jsx": "react",
+        "jsxFactory": "h",
+        "jsxFragmentFactory": "Fragment"
     },
     "paths": {
         "*": ["node_modules/*"]
