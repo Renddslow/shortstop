@@ -55,6 +55,8 @@
 		"@netlify/functions": "^0.7.2",
 		"goober": "^2.0.39",
 		"jsonwebtoken": "^8.5.1",
-		"preact": "^10.5.14"
+		"preact": "^10.5.14",
+		"wouter": "^2.7.4",
+		"wouter-preact": "^2.7.4"
 	}
 }
