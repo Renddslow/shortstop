@@ -1,56 +1,17 @@
 import { h } from 'preact';
+import sortOn from 'sort-on';
+import { useState } from 'preact/hooks';
 import { styled } from 'goober';
 
 import Icon from '../components/Icon';
 import Item from './Item';
+import { TouchbaseGrid, Main, AgendaTitle, List, SectionTitle, TitleActionRow } from './styled';
 
 type Props = {
   params: {
     userId: string;
   };
 };
-
-const Grid = styled('div')`
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  grid-gap: 24px;
-  padding: 24px;
-  max-width: 1080px;
-  margin: 0 auto;
-
-  @media screen and (max-width: 960px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const Main = styled('article')`
-  padding: 32px;
-  background: #fff;
-  box-shadow: 0 0 0 1px #0003;
-  border-radius: 4px;
-`;
-
-const SectionTitle = styled('h2')`
-  font-size: 18px;
-`;
-
-const TitleActionRow = styled('div')`
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, max-content));
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const AgendaTitle = styled('h2')`
-  font-size: 16px;
-`;
-
-const List = styled('div')`
-  margin: 24px 0;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 12px;
-`;
 
 const makeDatapoint = (title: string, id: string) => {
   const assignees = [
@@ -64,22 +25,48 @@ const makeDatapoint = (title: string, id: string) => {
     done: false,
     assignee: assignees[Math.floor(assignees.length * Math.random())],
     flagged: false,
+    created: new Date().toISOString(),
   };
 };
 
 const Touchbase = (props: Props) => {
-  const testData = [
+  const [agenda, setAgenda] = useState([
     makeDatapoint('Discuss new t/b format', 'aa'),
     makeDatapoint('Just JavaScript', 'ab'),
-  ];
+  ]);
+
+  const flipFlag = (id: string, key: string) => {
+    // fetch
+    setAgenda((d) => {
+      return d.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            [key]: !item[key],
+          };
+        }
+        return item;
+      });
+    });
+  };
+
+  const archive = (id: string) => {
+    setAgenda((d) => d.filter((item) => item.id !== id));
+  };
 
   return (
-    <Grid>
+    <TouchbaseGrid>
       <Main>
         <AgendaTitle>Agenda</AgendaTitle>
         <List>
-          {testData.map((item) => (
-            <Item {...item} key={item.id} />
+          {sortOn(agenda, ['-done', 'flagged', 'created']).map((item) => (
+            <Item
+              {...item}
+              key={item.id}
+              onChange={() => flipFlag(item.id, 'done')}
+              onFlag={() => flipFlag(item.id, 'flagged')}
+              onArchive={() => archive(item.id)}
+            />
           ))}
         </List>
         <AgendaTitle>Action Items</AgendaTitle>
@@ -94,7 +81,7 @@ const Touchbase = (props: Props) => {
           <Icon onClick={() => {}}>add</Icon>
         </TitleActionRow>
       </aside>
-    </Grid>
+    </TouchbaseGrid>
   );
 };
 

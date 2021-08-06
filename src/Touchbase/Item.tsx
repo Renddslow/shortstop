@@ -21,35 +21,47 @@ type Props = {
     name: string;
     initials: string;
   };
+  onChange: (checked: boolean) => void;
+  onFlag: (flagged: boolean) => void;
+  onArchive: () => void;
 };
 
+const ARCHIVE_MESSAGE =
+  'This will archive the item, for which there is currently no unarchive. Are you sure?';
+
 const Item = (props: Props) => {
+  const onDelete = () => {
+    if (window.confirm(ARCHIVE_MESSAGE)) {
+      props.onArchive();
+    }
+  };
+
   return (
     <ItemRow>
       <CheckboxRow>
         <CheckboxContainer>
-          <Checkbox type="checkbox" id={props.id} checked={props.done} />
+          <Checkbox
+            type="checkbox"
+            id={props.id}
+            checked={props.done}
+            onChange={() => props.onChange(!props.done)}
+          />
           <CheckboxIcon>check</CheckboxIcon>
         </CheckboxContainer>
-        <Label htmlFor={props.id}>{props.title}</Label>
+        <Label htmlFor={props.id} checked={props.done}>
+          {props.title}
+        </Label>
       </CheckboxRow>
       <ButtonRow>
         <Icon
           title="Click to make a priority item"
-          onClick={() => {}}
-          outlined={false}
-          color="#f00"
+          onClick={() => props.onFlag(!props.flagged)}
+          outlined={!props.flagged}
+          color={props.flagged ? `#f00` : '#000'}
         >
           flag
         </Icon>
-        <Icon
-          onClick={() =>
-            window.confirm(
-              'This will archive the item, for which there is currently no unarchive. Are you sure?',
-            )
-          }
-          outlined
-        >
+        <Icon onClick={onDelete} outlined>
           delete
         </Icon>
         <Avatar title={props.assignee.name}>{props.assignee.initials}</Avatar>
