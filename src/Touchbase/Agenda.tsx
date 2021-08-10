@@ -14,7 +14,7 @@ const Agenda = (props: Props) => {
   const [agenda, setAgenda] = useState([]);
 
   useEffect(() => {
-    fetch(`/api/agenda/${props.personID}`)
+    fetch(`/api/people/${props.personID}/agenda`)
       .then((d) => d.json())
       .then((d) => {
         setAgenda(
@@ -59,7 +59,9 @@ const Agenda = (props: Props) => {
           />
         ))}
       </List>
-      <AddItem onCreate={() => {}}>Add item to the agenda</AddItem>
+      <AddItem type="agenda" personID={props.personID} onCreate={() => {}}>
+        Add item to the agenda
+      </AddItem>
     </Fragment>
   );
 };

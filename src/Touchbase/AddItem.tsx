@@ -5,7 +5,9 @@ import { useState } from 'preact/hooks';
 
 type Props = {
   children: string;
-  onCreate: (value: string) => void;
+  personID: string;
+  type: 'agenda' | 'action';
+  onCreate: (value: Record<string, any>) => void;
 };
 
 const AddButton = styled('button')`
@@ -30,7 +32,7 @@ const AddButton = styled('button')`
   }
 `;
 
-const InputRow = styled('div')`
+const InputRow = styled('form')`
   margin-bottom: 24px;
   display: grid;
   grid-template-columns: 1fr repeat(2, minmax(0, max-content));
@@ -61,7 +63,7 @@ const Button = styled('button')`
   cursor: pointer;
 `;
 
-const AddItem = ({ children, onCreate }: Props) => {
+const AddItem = ({ children, onCreate, personID }: Props) => {
   const [addItem, setAddItem] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -76,13 +78,37 @@ const AddItem = ({ children, onCreate }: Props) => {
     setTitle(e.target.value);
   };
 
+  const handleCreate = (e) => {
+    e.preventDefault();
+    // todo: this
+    fetch(`/api/people/${personID}/agenda`, {
+      method: 'POST',
+      body: JSON.stringify({
+        data: {
+          type: 'agenda_item',
+          attributes: {
+            title,
+          },
+        },
+      }),
+    })
+      .then((d) => d.json())
+      .then((d) => {
+        onCreate(d);
+        setAddItem(false);
+        setTitle('');
+      });
+  };
+
   return addItem ? (
-    <InputRow>
+    <InputRow onSubmit={handleCreate}>
       <Input placeholder={label} aria-label={label} value={title} onChange={handleChange} />
-      <Button primary onChange={() => onCreate(title)}>
+      <Button type="submit" primary>
         Create
       </Button>
-      <Button onClick={cancel}>Cancel</Button>
+      <Button onClick={cancel} type="button">
+        Cancel
+      </Button>
     </InputRow>
   ) : (
     <AddButton onClick={() => setAddItem((a) => !a)}>
