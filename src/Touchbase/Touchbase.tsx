@@ -1,11 +1,11 @@
 import { h } from 'preact';
 import sortOn from 'sort-on';
 import { useState } from 'preact/hooks';
-import { styled } from 'goober';
 
 import Icon from '../components/Icon';
 import Item from './Item';
 import { TouchbaseGrid, Main, AgendaTitle, List, SectionTitle, TitleActionRow } from './styled';
+import AddItem from './AddItem';
 
 type Props = {
   params: {
@@ -59,7 +59,7 @@ const Touchbase = (props: Props) => {
       <Main>
         <AgendaTitle>Agenda</AgendaTitle>
         <List>
-          {sortOn(agenda, ['-done', 'flagged', 'created']).map((item) => (
+          {sortOn(agenda, ['flagged', 'created']).map((item) => (
             <Item
               {...item}
               key={item.id}
@@ -69,7 +69,10 @@ const Touchbase = (props: Props) => {
             />
           ))}
         </List>
+        <AddItem>Add item to the agenda</AddItem>
         <AgendaTitle>Action Items</AgendaTitle>
+        <List />
+        <AddItem>Create action item</AddItem>
       </Main>
       <aside>
         <TitleActionRow>

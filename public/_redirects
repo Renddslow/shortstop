@@ -1,1 +1,3 @@
+/api/people/:personID /.netlify/functions/person 200
+
 /* /index.html 200

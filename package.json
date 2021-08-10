@@ -53,6 +53,7 @@
 	},
 	"dependencies": {
 		"@netlify/functions": "^0.7.2",
+		"faunadb": "^4.3.0",
 		"goober": "^2.0.39",
 		"jsonwebtoken": "^8.5.1",
 		"preact": "^10.5.14",
