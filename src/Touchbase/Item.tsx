@@ -30,7 +30,6 @@ const ARCHIVE_MESSAGE =
   'This will archive the item, for which there is currently no unarchive. Are you sure?';
 
 const Item = (props: Props) => {
-  console.log(props);
   const onDelete = () => {
     if (window.confirm(ARCHIVE_MESSAGE)) {
       props.onArchive();

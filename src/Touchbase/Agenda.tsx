@@ -45,6 +45,10 @@ const Agenda = (props: Props) => {
     setAgenda((d) => d.filter((item) => item.id !== id));
   };
 
+  const addItem = (item: Record<string, any>) => {
+    setAgenda((t) => [...t, { id: item.id, ...item.attributes }]);
+  };
+
   return (
     <Fragment>
       <AgendaTitle>Agenda</AgendaTitle>
@@ -59,7 +63,7 @@ const Agenda = (props: Props) => {
           />
         ))}
       </List>
-      <AddItem type="agenda" personID={props.personID} onCreate={() => {}}>
+      <AddItem type="agenda" personID={props.personID} onCreate={addItem}>
         Add item to the agenda
       </AddItem>
     </Fragment>

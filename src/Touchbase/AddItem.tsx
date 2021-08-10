@@ -47,6 +47,10 @@ const Input = styled('input')`
   border: 1px solid #0003;
   width: 100%;
 
+  &:disabled {
+    background: #ccc;
+  }
+
   &:focus {
     border-color: #0a5be2;
   }
@@ -61,11 +65,16 @@ const Button = styled('button')`
   appearance: none;
   font-size: inherit;
   cursor: pointer;
+
+  &:disabled {
+    opacity: 0.8;
+  }
 `;
 
-const AddItem = ({ children, onCreate, personID }: Props) => {
+const AddItem = ({ children, onCreate, personID, type }: Props) => {
   const [addItem, setAddItem] = useState(false);
   const [title, setTitle] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const label = `What do you want to talk about?`;
 
@@ -80,12 +89,12 @@ const AddItem = ({ children, onCreate, personID }: Props) => {
 
   const handleCreate = (e) => {
     e.preventDefault();
-    // todo: this
-    fetch(`/api/people/${personID}/agenda`, {
+    setLoading(true);
+    fetch(`/api/people/${personID}/${type}`, {
       method: 'POST',
       body: JSON.stringify({
         data: {
-          type: 'agenda_item',
+          type: `${type}_item`,
           attributes: {
             title,
           },
@@ -94,19 +103,26 @@ const AddItem = ({ children, onCreate, personID }: Props) => {
     })
       .then((d) => d.json())
       .then((d) => {
-        onCreate(d);
+        onCreate(d.data);
         setAddItem(false);
         setTitle('');
+        setLoading(false);
       });
   };
 
   return addItem ? (
     <InputRow onSubmit={handleCreate}>
-      <Input placeholder={label} aria-label={label} value={title} onChange={handleChange} />
-      <Button type="submit" primary>
+      <Input
+        placeholder={label}
+        aria-label={label}
+        value={title}
+        disabled={loading}
+        onChange={handleChange}
+      />
+      <Button type="submit" primary disabled={loading}>
         Create
       </Button>
-      <Button onClick={cancel} type="button">
+      <Button onClick={cancel} type="button" disabled={loading}>
         Cancel
       </Button>
     </InputRow>
