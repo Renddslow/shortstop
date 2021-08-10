@@ -1,17 +1,12 @@
 import { Handler } from '@netlify/functions';
 import { query, Client } from 'faunadb';
+import getPersonIDFromPath from './utils/getPersonIDFromPath';
 
 const q = query;
 const client = new Client({ secret: process.env.FAUNA_KEY });
 
 const handler: Handler = async (event, context) => {
-  const path = /\/([a-zA-Z]+)$/.exec(event.path);
-
-  if (!path) {
-    // error
-  }
-
-  const [, personID] = path;
+  const [err, personID] = getPersonIDFromPath(event.path);
 
   const person = (await client.query(q.Get(q.Match(q.Index('personID'), personID)))) as Record<
     string,

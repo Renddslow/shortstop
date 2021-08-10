@@ -1,4 +1,6 @@
 /api/people/:personID /.netlify/functions/person 200
-/api/touchbases/:personID /.netlify/functions/touchbase 200
+/api/agenda/:personID /.netlify/functions/agendaItems 200
+/api/goals/:personID /.netlify/functions/goals 200
+/api/rocks/:personID /.netlify/functions/rocks 200
 
 /* /index.html 200
