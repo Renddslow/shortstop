@@ -13,8 +13,10 @@ const handler: Handler = async (event, context) => {
 
   const [, personID] = path;
 
-  const person = await client.query(q.Get(q.Match(q.Index('personID'), personID)));
-
+  const person = (await client.query(q.Get(q.Match(q.Index('personID'), personID)))) as Record<
+    string,
+    any
+  >;
 
   return {
     statusCode: 200,
@@ -23,7 +25,7 @@ const handler: Handler = async (event, context) => {
         type: 'person',
         id: personID,
         attributes: person.data,
-      }
+      },
     }),
   };
 };

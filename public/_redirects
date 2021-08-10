@@ -1,3 +1,4 @@
 /api/people/:personID /.netlify/functions/person 200
+/api/touchbases/:personID /.netlify/functions/touchbase 200
 
 /* /index.html 200
