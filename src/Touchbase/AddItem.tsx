@@ -5,7 +5,7 @@ import { useState } from 'preact/hooks';
 
 type Props = {
   children: string;
-  onChange: (value: string) => void;
+  onCreate: (value: string) => void;
 };
 
 const AddButton = styled('button')`
@@ -61,7 +61,7 @@ const Button = styled('button')`
   cursor: pointer;
 `;
 
-const AddItem = ({ children, onChange }: Props) => {
+const AddItem = ({ children, onCreate }: Props) => {
   const [addItem, setAddItem] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -79,7 +79,7 @@ const AddItem = ({ children, onChange }: Props) => {
   return addItem ? (
     <InputRow>
       <Input placeholder={label} aria-label={label} value={title} onChange={handleChange} />
-      <Button primary onChange={() => onChange(title)}>
+      <Button primary onChange={() => onCreate(title)}>
         Create
       </Button>
       <Button onClick={cancel}>Cancel</Button>

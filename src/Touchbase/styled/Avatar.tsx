@@ -11,6 +11,7 @@ const Avatar = styled('div')`
   justify-content: center;
   align-items: center;
   font-size: 14px;
+  user-select: none;
 `;
 
 export default Avatar;

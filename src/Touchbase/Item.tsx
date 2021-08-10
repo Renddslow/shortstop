@@ -15,11 +15,11 @@ import {
 type Props = {
   id: string;
   title: string;
-  done: boolean;
+  complete: boolean;
   flagged: boolean;
-  assignee: {
-    name: string;
-    initials: string;
+  createdBy: {
+    firstName: string;
+    lastName: string;
   };
   onChange: (checked: boolean) => void;
   onFlag: (flagged: boolean) => void;
@@ -30,6 +30,7 @@ const ARCHIVE_MESSAGE =
   'This will archive the item, for which there is currently no unarchive. Are you sure?';
 
 const Item = (props: Props) => {
+  console.log(props);
   const onDelete = () => {
     if (window.confirm(ARCHIVE_MESSAGE)) {
       props.onArchive();
@@ -43,12 +44,12 @@ const Item = (props: Props) => {
           <Checkbox
             type="checkbox"
             id={props.id}
-            checked={props.done}
-            onChange={() => props.onChange(!props.done)}
+            checked={props.complete}
+            onChange={() => props.onChange(!props.complete)}
           />
           <CheckboxIcon>check</CheckboxIcon>
         </CheckboxContainer>
-        <Label htmlFor={props.id} checked={props.done}>
+        <Label htmlFor={props.id} checked={props.complete}>
           {props.title}
         </Label>
       </CheckboxRow>
@@ -64,7 +65,10 @@ const Item = (props: Props) => {
         <Icon onClick={onDelete} outlined>
           delete
         </Icon>
-        <Avatar title={props.assignee.name}>{props.assignee.initials}</Avatar>
+        <Avatar title={`${props.createdBy.firstName} ${props.createdBy.lastName}`}>
+          {props.createdBy.firstName[0]}
+          {props.createdBy.lastName[0]}
+        </Avatar>
       </ButtonRow>
     </ItemRow>
   );

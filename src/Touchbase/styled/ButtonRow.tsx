@@ -5,6 +5,7 @@ const ButtonRow = styled('div')`
   grid-auto-flow: column;
   justify-content: start;
   grid-gap: 8px;
+  align-items: center;
 `;
 
 export default ButtonRow;

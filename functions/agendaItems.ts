@@ -41,14 +41,16 @@ const handler: Handler = async (event, context) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      data: items.data.map(({ ref, data }) => ({
-        type: 'agenda_item',
-        id: ref.toJSON()['@ref'].id,
-        attributes: matchPeople(
-          data,
-          people.data.map(({ data }) => data as Person),
-        ),
-      })),
+      data: items.data
+        .filter(({ data }) => (event.queryStringParameters.showComplete ? true : !data.complete))
+        .map(({ ref, data }) => ({
+          type: 'agenda_item',
+          id: ref.toJSON()['@ref'].id,
+          attributes: matchPeople(
+            data,
+            people.data.map(({ data }) => data as Person),
+          ),
+        })),
     }),
   };
 };
