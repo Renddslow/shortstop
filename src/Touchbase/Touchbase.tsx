@@ -7,6 +7,7 @@ import Agenda from './Agenda/Agenda';
 import ActionItems from './ActionItems/ActionItems';
 import PersonProvider from '../PersonProvider';
 import Goals from './Goals';
+import Rocks from './Rocks';
 
 type Props = {
   params: {
@@ -40,6 +41,7 @@ const Touchbase = (props: Props) => {
             <TitleActionRow>
               <SectionTitle>Rocks</SectionTitle>
             </TitleActionRow>
+            <Rocks personID={props.params.userId} />
           </div>
         </Aside>
       </TouchbaseGrid>
