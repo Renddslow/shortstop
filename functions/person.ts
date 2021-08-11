@@ -2,7 +2,6 @@ import { Handler } from '@netlify/functions';
 import { query, Client } from 'faunadb';
 
 import getKeyFromPath from './utils/getKeyFromPath';
-import { Response } from './utils/type';
 import matchPeople, { Person } from './utils/matchPeople';
 import getAllPeople from './utils/getAllPeople';
 

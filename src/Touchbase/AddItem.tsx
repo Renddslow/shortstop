@@ -1,7 +1,9 @@
 import { styled } from 'goober';
-import Icon from '../components/Icon';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
+
+import Icon from '../components/Icon';
+import { usePerson } from '../PersonProvider';
 
 type Props = {
   children: string;
@@ -94,8 +96,10 @@ const Button = styled('button')`
 const AddItem = ({ children, onCreate, personID, type, placeholder }: Props) => {
   const [addItem, setAddItem] = useState(false);
   const [title, setTitle] = useState('');
-  const [owner, setOwner] = useState('');
+  const [owner, setOwner] = useState(personID);
   const [loading, setLoading] = useState(false);
+
+  const person = usePerson();
 
   const label = placeholder || `What do you want to talk about?`;
 
@@ -104,8 +108,12 @@ const AddItem = ({ children, onCreate, personID, type, placeholder }: Props) => 
     setTitle('');
   };
 
-  const handleChange = (e) => {
-    setTitle(e.target.value);
+  const handleChange = (field: 'title' | 'owner') => (e) => {
+    if (field === 'title') {
+      setTitle(e.target.value);
+    } else {
+      setOwner(e.target.value);
+    }
   };
 
   const handleCreate = (e) => {
@@ -139,13 +147,16 @@ const AddItem = ({ children, onCreate, personID, type, placeholder }: Props) => 
         aria-label={label}
         value={title}
         disabled={loading}
-        onChange={handleChange}
+        onChange={handleChange('title')}
       />
       {type === 'actions' && (
-        <Select>
-          {/* todo: figure out how to do this */}
-          <option>Pam Rogers</option>
-          <option>Michael Scott</option>
+        <Select onChange={handleChange('owner')} value={owner}>
+          <option value={person.id}>
+            {person.firstName} {person.lastName}
+          </option>
+          <option value={person.direct.id}>
+            {person.direct.firstName} {person.direct.lastName}
+          </option>
         </Select>
       )}
       <Button type="submit" primary disabled={loading}>

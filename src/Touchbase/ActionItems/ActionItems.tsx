@@ -6,7 +6,6 @@ import { useEffect, useState } from 'preact/hooks';
 import AddItem from '../AddItem';
 import deleteItem from '../utils/deleteItem';
 import patchItem from '../utils/patchItem';
-import { set } from 'husky';
 import ActionItem from './ActionItem';
 
 type Props = {
