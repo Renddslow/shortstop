@@ -1,7 +1,7 @@
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 import { Client, query } from 'faunadb';
 
-import getPersonIDFromPath from '../utils/getPersonIDFromPath';
+import getPersonIDFromPath from '../utils/getKeyFromPath';
 import matchPeople, { Person } from './matchPeople';
 import { Response } from '../utils/type';
 

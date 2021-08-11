@@ -10,15 +10,15 @@ const exec = (path, result): Record<string, any> => {
   return out;
 };
 
-const getPersonIDFromPath = (pattern: string, path: string) => {
+const getKeyFromPath = (pattern: string, path: string, key: string) => {
   const route = parse(pattern);
   const p = exec(path, route);
 
-  if (!p.personID) {
+  if (!p[key]) {
     return [''];
   }
 
-  return [null, p.personID];
+  return [null, p[key]];
 };
 
-export default getPersonIDFromPath;
+export default getKeyFromPath;

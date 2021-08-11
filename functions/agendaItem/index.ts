@@ -1,15 +1,15 @@
 import { Handler } from '@netlify/functions';
 
 import getKeyFromPath from '../utils/getKeyFromPath';
-import get from './get';
-import create from './create';
+import archive from './archive';
+import patch from './patch';
 
 const handler: Handler = async (event, context) => {
-  const [err, personID] = getKeyFromPath('/api/people/:personID/agenda', event.path, 'personID');
+  const [err, personID] = getKeyFromPath('/api/agenda-items/:itemID', event.path, 'itemID');
 
   const methods = {
-    POST: create(personID),
-    GET: get(personID),
+    PATCH: patch(personID),
+    DELETE: archive(personID),
   };
 
   return methods[event.httpMethod](event);

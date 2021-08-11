@@ -3,4 +3,7 @@
 /api/people/:personID/goals /.netlify/functions/goals 200
 /api/people/:personID/rocks /.netlify/functions/rocks 200
 
+/api/agenda-items/:itemID /.netlify/functions/agendaItem 200
+/api/action-items/:itemID /.netlify/functions/actionItem 200
+
 /* /index.html 200

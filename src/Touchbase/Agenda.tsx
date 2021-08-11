@@ -27,22 +27,35 @@ const Agenda = (props: Props) => {
   }, []);
 
   const flipFlag = (id: string, key: string) => {
-    // fetch
-    setAgenda((d) => {
-      return d.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            [key]: !item[key],
-          };
-        }
-        return item;
+    fetch(`/api/agenda-items/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        op: 'replace',
+        path: `/${key}`,
+        value: !agenda.find((item) => item.id === id)[key],
+      }),
+    })
+      .then((d) => d.json())
+      .then((d) => {
+        setAgenda((a) =>
+          a.map((item) =>
+            item.id === id
+              ? {
+                  id: d.data.id,
+                  ...d.data.attributes,
+                }
+              : item,
+          ),
+        );
       });
-    });
   };
 
   const archive = (id: string) => {
-    setAgenda((d) => d.filter((item) => item.id !== id));
+    fetch(`/api/agenda-items/${id}`, {
+      method: 'DELETE',
+    }).then(() => {
+      setAgenda((d) => d.filter((item) => item.id !== id));
+    });
   };
 
   const addItem = (item: Record<string, any>) => {

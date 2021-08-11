@@ -25,7 +25,7 @@ const get =
       statusCode: 200,
       body: JSON.stringify({
         data: items.data
-          .filter(({ data }) => (event.queryStringParameters.showComplete ? true : !data.complete))
+          .filter(({ data }) => (event.queryStringParameters.showArchived ? true : !data.archived))
           .map(({ ref, data }) => ({
             type: 'agenda_item',
             id: ref.toJSON()['@ref'].id,

@@ -1,14 +1,14 @@
 import { query, Client } from 'faunadb';
 import { Handler } from '@netlify/functions';
 
-import getPersonIDFromPath from './utils/getPersonIDFromPath';
+import getKeyFromPath from './utils/getKeyFromPath';
 import { Response } from './utils/type';
 
 const q = query;
 const client = new Client({ secret: process.env.FAUNA_KEY });
 
 const handler: Handler = async (event, context) => {
-  const [err, personID] = getPersonIDFromPath(event.path);
+  const [err, personID] = getKeyFromPath('', event.path, 'personID');
 
   const goals = (await client.query(
     q.Map(q.Paginate(q.Match(q.Index('goalOwner'), personID)), q.Lambda('x', q.Get(q.Var('x')))),
