@@ -1,4 +1,4 @@
-import { HandlerEvent, HandlerResponse } from '@netlify/functions';
+import { HandlerResponse } from '@netlify/functions';
 import { Client, query } from 'faunadb';
 
 const q = query;

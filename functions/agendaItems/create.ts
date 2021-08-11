@@ -1,8 +1,8 @@
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 import { Client, query } from 'faunadb';
 
-import matchPeople, { Person } from '../utils/matchPeople';
-import { Response } from '../utils/type';
+import matchPeople from '../utils/matchPeople';
+import getAllPeople from '../utils/getAllPeople';
 
 type Payload = {
   data: {
@@ -28,9 +28,6 @@ const create =
       title: (JSON.parse(event.body) as Payload).data.attributes.title,
     };
 
-    const people = (await client.query(
-      q.Map(q.Paginate(q.Match(q.Index('allPeople'))), q.Lambda('x', q.Get(q.Var('x')))),
-    )) as { data: Response[] };
     const data = (await client.query(
       q.Create(q.Collection('agendas'), { data: faunaPayload }),
     )) as Record<string, any>;
@@ -41,10 +38,7 @@ const create =
         data: {
           type: 'agenda_item',
           id: data.ref.toJSON()['@ref'].id,
-          attributes: matchPeople(
-            faunaPayload,
-            people.data.map(({ data }) => data as Person),
-          ),
+          attributes: matchPeople(faunaPayload, await getAllPeople(client)),
         },
       }),
     };

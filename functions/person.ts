@@ -2,6 +2,9 @@ import { Handler } from '@netlify/functions';
 import { query, Client } from 'faunadb';
 
 import getKeyFromPath from './utils/getKeyFromPath';
+import { Response } from './utils/type';
+import matchPeople, { Person } from './utils/matchPeople';
+import getAllPeople from './utils/getAllPeople';
 
 const q = query;
 const client = new Client({ secret: process.env.FAUNA_KEY });
@@ -20,7 +23,7 @@ const handler: Handler = async (event, context) => {
       data: {
         type: 'person',
         id: personID,
-        attributes: person.data,
+        attributes: matchPeople(person.data, await getAllPeople(client)),
       },
     }),
   };
