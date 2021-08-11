@@ -57,7 +57,7 @@ const AgendaItem = (props: Props) => {
           title="Click to make a priority item"
           onClick={() => props.onFlag(!props.flagged)}
           outlined={!props.flagged}
-          color={props.flagged ? `#f00` : '#000'}
+          color={props.flagged ? `#C83E4D` : '#000'}
         >
           flag
         </Icon>

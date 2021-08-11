@@ -10,7 +10,11 @@
         "resolveJsonModule": true,
         "jsx": "react",
         "jsxFactory": "h",
-        "jsxFragmentFactory": "Fragment"
+        "jsxFragmentFactory": "Fragment",
+      "lib": [
+        "es2018.full",
+        "dom"
+      ]
     },
     "paths": {
         "*": ["node_modules/*"]

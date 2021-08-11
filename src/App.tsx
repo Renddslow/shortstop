@@ -40,6 +40,7 @@ const App = () => {
       <Route path="/touchbases/:userId" component={Touchbase} />
       <Route path="/people">People</Route>
       <Route path="/people/:userId">People</Route>
+      <Route path="/touchbases/:userId/goals/:goalID" component={Touchbase} />
     </Wrapper>
   );
 };

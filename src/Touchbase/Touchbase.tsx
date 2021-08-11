@@ -1,16 +1,24 @@
 import { h } from 'preact';
+import { styled } from 'goober';
 
 import Icon from '../components/Icon';
-import { TouchbaseGrid, Main, AgendaTitle, List, SectionTitle, TitleActionRow } from './styled';
+import { TouchbaseGrid, Main, SectionTitle, TitleActionRow } from './styled';
 import Agenda from './Agenda/Agenda';
 import ActionItems from './ActionItems/ActionItems';
 import PersonProvider from '../PersonProvider';
+import Goals from './Goals';
 
 type Props = {
   params: {
     userId: string;
   };
 };
+
+const Aside = styled('aside')`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 12px;
+`;
 
 const Touchbase = (props: Props) => {
   return (
@@ -20,16 +28,20 @@ const Touchbase = (props: Props) => {
           <Agenda personID={props.params.userId} />
           <ActionItems personID={props.params.userId} />
         </Main>
-        <aside>
-          <TitleActionRow>
-            <SectionTitle>Goals</SectionTitle>
-            <Icon onClick={() => {}}>add</Icon>
-          </TitleActionRow>
-          <TitleActionRow>
-            <SectionTitle>Rocks</SectionTitle>
-            <Icon onClick={() => {}}>add</Icon>
-          </TitleActionRow>
-        </aside>
+        <Aside>
+          <div>
+            <TitleActionRow>
+              <SectionTitle>Goals</SectionTitle>
+              <Icon onClick={() => {}}>add</Icon>
+            </TitleActionRow>
+            <Goals personID={props.params.userId} />
+          </div>
+          <div>
+            <TitleActionRow>
+              <SectionTitle>Rocks</SectionTitle>
+            </TitleActionRow>
+          </div>
+        </Aside>
       </TouchbaseGrid>
     </PersonProvider>
   );
