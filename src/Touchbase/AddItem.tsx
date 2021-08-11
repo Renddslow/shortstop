@@ -142,7 +142,7 @@ const AddItem = ({ children, onCreate, personID, type, placeholder }: Props) => 
         onChange={handleChange}
       />
       {type === 'actions' && (
-        <Select placeholder="Hello">
+        <Select>
           {/* todo: figure out how to do this */}
           <option>Pam Rogers</option>
           <option>Michael Scott</option>

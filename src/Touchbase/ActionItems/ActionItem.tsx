@@ -54,9 +54,9 @@ const ActionItem = (props: Props) => {
             delete
           </Icon>
         )}
-        <Avatar title={`${props.createdBy.firstName} ${props.createdBy.lastName}`}>
-          {props.createdBy.firstName[0]}
-          {props.createdBy.lastName[0]}
+        <Avatar title={`${props.owner.firstName} ${props.owner.lastName}`}>
+          {props.owner.firstName[0]}
+          {props.owner.lastName[0]}
         </Avatar>
       </ButtonRow>
     </ItemRow>

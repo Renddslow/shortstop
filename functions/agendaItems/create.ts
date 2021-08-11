@@ -1,7 +1,7 @@
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 import { Client, query } from 'faunadb';
 
-import matchPeople, { Person } from './matchPeople';
+import matchPeople, { Person } from '../utils/matchPeople';
 import { Response } from '../utils/type';
 
 type Payload = {

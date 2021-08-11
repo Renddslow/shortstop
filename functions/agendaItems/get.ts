@@ -2,7 +2,7 @@ import { Client, query } from 'faunadb';
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 
 import { Response } from '../utils/type';
-import matchPeople, { Person } from './matchPeople';
+import matchPeople, { Person } from '../utils/matchPeople';
 
 const q = query;
 const client = new Client({ secret: process.env.FAUNA_KEY });

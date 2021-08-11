@@ -12,9 +12,15 @@ const getLinkedData = (person: Person) => ({
   email: person.email,
 });
 
+const linkedKeys = ['touchbase', 'createdBy', 'owner', 'direct'];
+
 const matchPeople = (data: Record<string, any>, people: Person[]) => {
-  data.touchbase = getLinkedData(people.find(({ id }) => id === data.touchbase));
-  data.createdBy = getLinkedData(people.find(({ id }) => id === data.createdBy));
+  linkedKeys.forEach((key) => {
+    if (data[key]) {
+      const person = people.find(({ id }) => id === data[key]);
+      data[key] = getLinkedData(person);
+    }
+  });
   return data;
 };
 
