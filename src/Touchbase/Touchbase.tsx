@@ -2,8 +2,7 @@ import { h } from 'preact';
 
 import Icon from '../components/Icon';
 import { TouchbaseGrid, Main, AgendaTitle, List, SectionTitle, TitleActionRow } from './styled';
-import AddItem from './AddItem';
-import Agenda from './Agenda';
+import Agenda from './Agenda/Agenda';
 
 type Props = {
   params: {
@@ -18,7 +17,6 @@ const Touchbase = (props: Props) => {
         <Agenda personID={props.params.userId} />
         <AgendaTitle>Action Items</AgendaTitle>
         <List />
-        <AddItem onCreate={() => {}}>Create action item</AddItem>
       </Main>
       <aside>
         <TitleActionRow>

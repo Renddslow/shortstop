@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-import Icon from '../components/Icon';
+import Icon from '../../components/Icon';
 import {
   ButtonRow,
   ItemRow,
@@ -10,7 +10,7 @@ import {
   CheckboxIcon,
   Avatar,
   Label,
-} from './styled';
+} from '../styled';
 
 type Props = {
   id: string;
@@ -29,7 +29,7 @@ type Props = {
 const ARCHIVE_MESSAGE =
   'This will archive the item, for which there is currently no unarchive. Are you sure?';
 
-const Item = (props: Props) => {
+const AgendaItem = (props: Props) => {
   const onDelete = () => {
     if (window.confirm(ARCHIVE_MESSAGE)) {
       props.onArchive();
@@ -73,4 +73,4 @@ const Item = (props: Props) => {
   );
 };
 
-export default Item;
+export default AgendaItem;

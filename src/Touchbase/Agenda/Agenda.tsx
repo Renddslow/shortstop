@@ -1,10 +1,12 @@
 import { Fragment, h } from 'preact';
 import sortOn from 'sort-on';
 
-import { AgendaTitle, List } from './styled';
-import Item from './Item';
+import { AgendaTitle, List } from '../styled';
+import AgendaItem from './AgendaItem';
 import { useEffect, useState } from 'preact/hooks';
-import AddItem from './AddItem';
+import AddItem from '../AddItem';
+import deleteItem from '../utils/deleteItem';
+import patchItem from '../utils/patchItem';
 
 type Props = {
   personID: string;
@@ -27,33 +29,18 @@ const Agenda = (props: Props) => {
   }, []);
 
   const flipFlag = (id: string, key: string) => {
-    fetch(`/api/agenda-items/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        op: 'replace',
-        path: `/${key}`,
-        value: !agenda.find((item) => item.id === id)[key],
-      }),
-    })
-      .then((d) => d.json())
-      .then((d) => {
-        setAgenda((a) =>
-          a.map((item) =>
-            item.id === id
-              ? {
-                  id: d.data.id,
-                  ...d.data.attributes,
-                }
-              : item,
-          ),
-        );
-      });
+    patchItem(
+      'agenda',
+      id,
+      key,
+      agenda.find((item) => item.id === id),
+    ).then((d) => {
+      setAgenda((a) => a.map((item) => (item.id === id ? d : item)));
+    });
   };
 
   const archive = (id: string) => {
-    fetch(`/api/agenda-items/${id}`, {
-      method: 'DELETE',
-    }).then(() => {
+    deleteItem('agenda', id).then(() => {
       setAgenda((d) => d.filter((item) => item.id !== id));
     });
   };
@@ -67,7 +54,7 @@ const Agenda = (props: Props) => {
       <AgendaTitle>Agenda</AgendaTitle>
       <List>
         {sortOn(agenda, ['flagged', 'created']).map((item) => (
-          <Item
+          <AgendaItem
             {...item}
             key={item.id}
             onChange={() => flipFlag(item.id, 'complete')}
