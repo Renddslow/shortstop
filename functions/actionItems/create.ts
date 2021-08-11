@@ -19,27 +19,30 @@ const client = new Client({ secret: process.env.FAUNA_KEY });
 const create =
   (personID: string) =>
   async (event: HandlerEvent): Promise<HandlerResponse> => {
+    const { owner, title } = JSON.parse(event.body).data.attributes;
+
     const faunaPayload = {
       touchbase: personID,
       complete: false,
-      flagged: false,
+      owner,
+      title,
       created: new Date().toISOString(),
       createdBy: 'mmcelwee', // TODO: get from cookie
-      title: (JSON.parse(event.body) as Payload).data.attributes.title,
     };
 
     const people = (await client.query(
       q.Map(q.Paginate(q.Match(q.Index('allPeople'))), q.Lambda('x', q.Get(q.Var('x')))),
     )) as { data: Response[] };
+
     const data = (await client.query(
-      q.Create(q.Collection('agendas'), { data: faunaPayload }),
+      q.Create(q.Collection('action-items'), { data: faunaPayload }),
     )) as Record<string, any>;
 
     return {
       statusCode: 200,
       body: JSON.stringify({
         data: {
-          type: 'agenda_item',
+          type: 'action_item',
           id: data.ref.toJSON()['@ref'].id,
           attributes: matchPeople(
             faunaPayload,

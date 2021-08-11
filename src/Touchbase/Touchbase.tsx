@@ -3,6 +3,7 @@ import { h } from 'preact';
 import Icon from '../components/Icon';
 import { TouchbaseGrid, Main, AgendaTitle, List, SectionTitle, TitleActionRow } from './styled';
 import Agenda from './Agenda/Agenda';
+import ActionItems from './ActionItems/ActionItems';
 
 type Props = {
   params: {
@@ -15,8 +16,7 @@ const Touchbase = (props: Props) => {
     <TouchbaseGrid>
       <Main>
         <Agenda personID={props.params.userId} />
-        <AgendaTitle>Action Items</AgendaTitle>
-        <List />
+        <ActionItems personID={props.params.userId} />
       </Main>
       <aside>
         <TitleActionRow>

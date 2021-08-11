@@ -6,7 +6,7 @@ import { useState } from 'preact/hooks';
 type Props = {
   children: string;
   personID: string;
-  type: 'agenda' | 'action';
+  type: 'agenda' | 'actions';
   onCreate: (value: Record<string, any>) => void;
 };
 
