@@ -7,6 +7,7 @@ import AddItem from '../AddItem';
 import deleteItem from '../utils/deleteItem';
 import patchItem from '../utils/patchItem';
 import { set } from 'husky';
+import ActionItem from './ActionItem';
 
 type Props = {
   personID: string;
@@ -54,10 +55,19 @@ const Agenda = (props: Props) => {
       <AgendaTitle>Action Items</AgendaTitle>
       <List>
         {sortOn(items, ['created']).map((item) => (
-          <div />
+          <ActionItem
+            {...item}
+            onChange={() => flipFlag(item.id, 'complete')}
+            onArchive={() => archive(item.id)}
+          />
         ))}
       </List>
-      <AddItem type="actions" personID={props.personID} onCreate={addItem}>
+      <AddItem
+        placeholder="What are you going to do this week?"
+        type="actions"
+        personID={props.personID}
+        onCreate={addItem}
+      >
         Create action item
       </AddItem>
     </Fragment>
